@@ -18,7 +18,7 @@ class Digest
     Use the MD5 algorithm to calculate the hash.
     """
     _digest_size = 16
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_md5[Pointer[_EVPMD]](), USize(0))
 
   new ripemd160() =>
@@ -26,7 +26,7 @@ class Digest
     Use the RIPEMD160 algorithm to calculate the hash.
     """
     _digest_size = 20
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_ripemd160[Pointer[_EVPMD]](), USize(0))
 
   new sha1() =>
@@ -34,7 +34,7 @@ class Digest
     Use the SHA1 algorithm to calculate the hash.
     """
     _digest_size = 20
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_sha1[Pointer[_EVPMD]](), USize(0))
 
   new sha224() =>
@@ -42,7 +42,7 @@ class Digest
     Use the SHA256 algorithm to calculate the hash.
     """
     _digest_size = 28
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_sha224[Pointer[_EVPMD]](), USize(0))
 
   new sha256() =>
@@ -50,7 +50,7 @@ class Digest
     Use the SHA256 algorithm to calculate the hash.
     """
     _digest_size = 32
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_sha256[Pointer[_EVPMD]](), USize(0))
 
   new sha384() =>
@@ -58,7 +58,7 @@ class Digest
     Use the SHA384 algorithm to calculate the hash.
     """
     _digest_size = 48
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_sha384[Pointer[_EVPMD]](), USize(0))
 
   new sha512() =>
@@ -66,7 +66,7 @@ class Digest
     Use the SHA512 algorithm to calculate the hash.
     """
     _digest_size = 64
-    _ctx = @EVP_MD_CTX_create[Pointer[_EVPCTX]]()
+    _ctx = @EVP_MD_CTX_new[Pointer[_EVPCTX]]()
     @EVP_DigestInit_ex[None](_ctx, @EVP_sha512[Pointer[_EVPMD]](), USize(0))
 
   fun ref append(input: ByteSeq) ? =>
@@ -90,7 +90,7 @@ class Digest
           @pony_alloc[Pointer[U8]](@pony_ctx[Pointer[None] iso](), size), size)
         end
       @EVP_DigestFinal_ex[None](_ctx, digest.cpointer(), Pointer[USize])
-      @EVP_MD_CTX_cleanup[None](_ctx)
+      @EVP_MD_CTX_free[None](_ctx)
       let h = (consume digest).array()
       _hash = h
       h

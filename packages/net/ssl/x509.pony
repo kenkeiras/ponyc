@@ -69,7 +69,7 @@ primitive X509
       return array
     end
 
-    var name = @sk_pop[Pointer[_GeneralName]](stack)
+    var name = @OPENSSL_sk_pop[Pointer[_GeneralName]](stack)
 
     while not name.is_null() do
       var ptype = I32(0)
@@ -109,10 +109,10 @@ primitive X509
       end
 
       @GENERAL_NAME_free[None](name)
-      name = @sk_pop[Pointer[_GeneralName]](stack)
+      name = @OPENSSL_sk_pop[Pointer[_GeneralName]](stack)
     end
 
-    @sk_free[None](stack)
+    @OPENSSL_sk_free[None](stack)
     array
 
   fun _match_name(host: String, name: String): Bool =>

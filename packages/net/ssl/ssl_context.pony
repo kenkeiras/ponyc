@@ -20,7 +20,7 @@ class val SSLContext
     """
     Create an SSL context.
     """
-    _ctx = @SSL_CTX_new[Pointer[_SSLContext]](@SSLv23_method[Pointer[None]]())
+    _ctx = @SSL_CTX_new[Pointer[_SSLContext]](@TLS_method[Pointer[None]]())
 
     // set SSL_OP_NO_SSLv2
     @SSL_CTX_ctrl(_ctx, 32, 0x01000000, Pointer[None])
